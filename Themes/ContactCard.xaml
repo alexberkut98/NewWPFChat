@@ -1,0 +1,56 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--Здесь будет храниться стандартный шаблон элемента списка контактов-->
+    <Style TargetType="ListViewItem" x:Key="ContactCard">
+        <!--Триггеры свойств: вызываются в ответ на изменения свойствами зависимостей своего значения-->
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="Red"/>
+            </Trigger>
+        </Style.Triggers>
+
+        <Setter Property="Background" Value="Beige"/>
+
+        <!--Используя свойство Template, можно определить шаблон напрямую в самом элементе-->
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <!--ControlTemplate предназначен для автономной единицы детализации реализации, которая невидима для внешних пользователей и объектов, включая стили.-->
+                <ControlTemplate TargetType="ListViewItem">
+
+                    <!--Чтобы мы могли из элемента, к которому применяется шаблон, влиять на свойства, 
+                    определенные в этом шаблоне, 
+                    нам надо использовать элемент TemplateBinding.
+                    Он служит для установки в шаблоне привязки к свойствам элемента.-->
+
+                    <!--Border Отображает границу, фон либо и то, и другое вокруг элемента.-->
+
+                    <Border 
+                        Background="{TemplateBinding Background}"
+                        Height="50"
+                        CornerRadius="4"
+                            >
+                        <StackPanel Orientation="Horizontal">
+                            <Border 
+                                Height="30" 
+                                Width="30"
+                                Background="Coral"
+                                CornerRadius="25"
+                                    />
+                            <StackPanel>
+                                <Label Content="{Binding UserName}" 
+                                       Foreground="Black"/>
+                                
+                                <Label Content="{Binding LastMessage}" 
+                                       Foreground="Gray"
+                                       FontSize="10"
+                                       />
+                            </StackPanel>
+                            
+                        </StackPanel> 
+                    </Border> 
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
