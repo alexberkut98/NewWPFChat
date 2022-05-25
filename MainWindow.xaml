@@ -34,7 +34,7 @@
         </Grid.ColumnDefinitions>
         <!--Grid - контейнер, состоящий из столбцов и строк,
             число которых определяет разработчик-->
-        
+
         <!--Border - Задний фон элемента WPF-->
         <Border Grid.ColumnSpan="2" 
                 Background="Blue"
@@ -87,9 +87,9 @@
                         />
 
                 </StackPanel>
-            
+
             </Grid>
-            
+
         </Border>
 
         <Grid Background="White" Grid.Row="1">
@@ -160,7 +160,27 @@
                         />
                 </Grid>
             </Border>
-            
+            <!--ItemContainerStyle Возвращает или задает Style, применяемый к элементу контейнера, созданного для каждого элемента.-->
+            <ListView ItemsSource="{Binding SelectedContact.Messages}" 
+                      Background="Transparent" 
+                      BorderThickness="0"
+                      ItemContainerStyle="{StaticResource ChatItem}"
+                      Grid.Row="1"
+                      />
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="83*"/>
+                    <ColumnDefinition Width="90"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    Text="Message @UserName"
+                    Style="{StaticResource MessageBox}"
+                    Grid.ColumnSpan="3"
+                         
+                         />
+            </Grid>
         </Grid>
     </Grid>
 </Window>
