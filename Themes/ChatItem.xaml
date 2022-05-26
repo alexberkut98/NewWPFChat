@@ -8,7 +8,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Label 
                             Content="{Binding UserName}"
-                            Foreground="{Binding UserNameColur}"
+                            Foreground="{Binding UserNameColor}"
                             FontWeight="SemiBold"
                             VerticalAlignment="Center"
                             />
@@ -46,7 +46,7 @@
         <!--DataTrigger отслеживает изменение свойств, которые необязательно должны представлять свойства зависимостей.-->
         <Style.Triggers>
             <DataTrigger Binding="{Binding FirstMessage}" Value="False">
-                <Setter Property="Template" Value ="{StaticResource CustomRow}"
+                <Setter Property="Template" Value ="{StaticResource CustomRow}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

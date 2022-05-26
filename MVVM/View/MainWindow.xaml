@@ -98,26 +98,43 @@
                 <RowDefinition/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
-
+            <DockPanel>
+                <!--PropertyChanged: источник привязки обновляется сразу после обновления свойства в приемнике-->
+                <TextBox 
+                    Height="25"
+                    DockPanel.Dock="Top"                  
+                    Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"
+                    
+                    />
+                <Button 
+                    Height="25"
+                    Content="Connect"
+                    Command="{Binding ConnectToServerCommand}"
+                        />
+            </DockPanel>
             <Label
                 Content="Contacts"
                 VerticalAlignment="Center"
                 FontWeight="Medium"
                 Foreground="Gray"
+                Margin="0,45,0,-45"
                 />
 
             <ListView
                 ItemsSource="{Binding Contacts}"
+                SelectedItem="{Binding SelectedContact}"
                 Background="Transparent"
                 BorderThickness="0"
                 Grid.Row="1"
                 ItemContainerStyle="{StaticResource ContactCard}"
+                Margin="0,45,0,0"
                 />
 
             <StackPanel 
                 Grid.Row="2"
                 Orientation="Horizontal"
                 Background="Beige"
+                Margin="0,0,0,0"
                 >
                 <Border 
                    CornerRadius="25"
@@ -128,7 +145,7 @@
                 <StackPanel VerticalAlignment="Center">
                     <Label 
                         Content="UserName"
-                        Foreground="Black"
+                        Foreground="White"
                         FontWeight="SemiBold"
                         Margin="0,-5,0,-5"
                         />
@@ -169,8 +186,7 @@
                       />
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="8*"/>
-                    <ColumnDefinition Width="83*"/>
+                    <ColumnDefinition/>
                     <ColumnDefinition Width="90"/>
                 </Grid.ColumnDefinitions>
 
@@ -178,8 +194,18 @@
                     Text="Message @UserName"
                     Style="{StaticResource MessageBox}"
                     Grid.ColumnSpan="3"
-                         
+                    Height="50"
                          />
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Grid.Column="1"
+                            >
+
+                    <Image Source="/Icons/plus.png" Width="20" Height="20"/>
+                    <Image Source="/Icons/send.png" Width="20" Height="20"/>
+
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>
