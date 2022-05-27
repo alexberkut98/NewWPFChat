@@ -28,7 +28,7 @@ namespace ChatClient.Net.IO
         //и перемещает текущую позицию внутри этого потока в памяти на число записанных байтов.
         //BitConverter Преобразует базовые типы данных в массив байтов, а массив байтов — в базовые типы данных.
         //GetBytes возвращает указаное число в виде массива байтов.
-        public void WriteString(string msg)
+        public void WriteMessage(string msg)
         {
             var msglength = msg.Length;
             _ms.Write(BitConverter.GetBytes(msglength));

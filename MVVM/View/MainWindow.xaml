@@ -121,14 +121,18 @@
                 />
 
             <ListView
-                ItemsSource="{Binding Contacts}"
-                SelectedItem="{Binding SelectedContact}"
+                ItemsSource="{Binding Users}"               
                 Background="Transparent"
                 BorderThickness="0"
                 Grid.Row="1"
-                ItemContainerStyle="{StaticResource ContactCard}"
                 Margin="0,45,0,0"
-                />
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding UserName}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <StackPanel 
                 Grid.Row="2"
@@ -178,7 +182,7 @@
                 </Grid>
             </Border>
             <!--ItemContainerStyle Возвращает или задает Style, применяемый к элементу контейнера, созданного для каждого элемента.-->
-            <ListView ItemsSource="{Binding SelectedContact.Messages}" 
+            <ListView ItemsSource="{Binding Messages1}" 
                       Background="Transparent" 
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ChatItem}"
@@ -191,7 +195,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBox
-                    Text="Message @UserName"
+                    Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource MessageBox}"
                     Grid.ColumnSpan="3"
                     Height="50"
@@ -203,7 +207,10 @@
                             >
 
                     <Image Source="/Icons/plus.png" Width="20" Height="20"/>
-                    <Image Source="/Icons/send.png" Width="20" Height="20"/>
+
+                    <Button Command="{Binding SendCommand}" Width="20" Height="20">
+                        <Image Source="/Icons/Send.png" Width="20" Height="20"/>
+                    </Button>
 
                 </StackPanel>
             </Grid>
