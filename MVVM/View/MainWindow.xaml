@@ -121,17 +121,15 @@
                 />
 
             <ListView
-                ItemsSource="{Binding Users}"               
+                ItemsSource="{Binding Contacts,UpdateSourceTrigger=PropertyChanged}"               
                 Background="Transparent"
                 BorderThickness="0"
                 Grid.Row="1"
+                ItemContainerStyle="{StaticResource ContactCard}"
+                SelectedItem="{Binding SelectedContact}"
                 Margin="0,45,0,0"
                 >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding UserName}"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                
             </ListView>
 
             <StackPanel 
@@ -182,7 +180,7 @@
                 </Grid>
             </Border>
             <!--ItemContainerStyle Возвращает или задает Style, применяемый к элементу контейнера, созданного для каждого элемента.-->
-            <ListView ItemsSource="{Binding Messages1}" 
+            <ListView ItemsSource="{Binding Messages}" 
                       Background="Transparent" 
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ChatItem}"
@@ -197,8 +195,8 @@
                 <TextBox
                     Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource MessageBox}"
-                    Grid.ColumnSpan="3"
-                    Height="50"
+                    Grid.ColumnSpan="2"
+                    Height="50" Margin="0,10,0,10" HorizontalAlignment="Left" Width="1000"
                          />
 
                 <StackPanel Orientation="Horizontal"

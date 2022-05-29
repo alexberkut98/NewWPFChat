@@ -8,7 +8,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Label 
                             Content="{Binding UserName}"
-                            Foreground="{Binding UserNameColor}"
+                            Foreground="White"
                             FontWeight="SemiBold"
                             VerticalAlignment="Center"
                             />

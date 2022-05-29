@@ -2,14 +2,20 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--Здесь будет храниться стандартный шаблон элемента списка контактов-->
     <Style TargetType="ListViewItem" x:Key="ContactCard">
-        <!--Триггеры свойств: вызываются в ответ на изменения свойствами зависимостей своего значения-->
-        <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="Red"/>
-            </Trigger>
-        </Style.Triggers>
+        <!--Надо воспользоваться механизмом MultiTrigger, чтобы расписать обработку каждой из следующих ситуаций:
+        1. Ни одна из кнопок не нажата - выделяется кнопка All, прочие кнопки сохранняют естественный цвет.
+        2. Нажата кнопка All - результат, аналогичный пункту выше
+        3. Одна из прочих кнопок нажата.
+        -->
+        
+        <!--ContactColor один из параметров элемента списка Contacts. Он обозначает цвет заднего фона в списке контактов
+        В каждый момент времени только один из элементов списка может иметь красный фон, прочие же кораловый.
+        Изначально красным фоном обладает элемент под именем All, потом - тот элемент, на который мы кликаем.
+        Чтобы этого добиться нужна функция, что распознает клик по некоторому элементу списка и сделает его задний фон красным,
+        
+        -->
 
-        <Setter Property="Background" Value="Beige"/>
+        <Setter Property="Background" Value="{Binding UserColor,UpdateSourceTrigger=PropertyChanged}"/>
 
         <!--Используя свойство Template, можно определить шаблон напрямую в самом элементе-->
         <Setter Property="Template">
@@ -26,7 +32,7 @@
                     <!--Border Отображает границу, фон либо и то, и другое вокруг элемента.-->
 
                     <Border 
-                        Background="{TemplateBinding Background}"
+                        Background="{Binding UserColor,UpdateSourceTrigger=PropertyChanged}"
                         Height="50"
                         CornerRadius="4"
                             >
@@ -34,10 +40,11 @@
                             <Border 
                                 Height="30" 
                                 Width="30"
-                                Background="Coral"
+                                Background="Blue"
                                 CornerRadius="25"
                                     />
-                            <StackPanel>
+                            <StackPanel Background="{Binding UserColor,UpdateSourceTrigger=PropertyChanged}">
+                                
                                 <Label Content="{Binding UserName}" 
                                        Foreground="Black"/>
                                 

@@ -19,22 +19,38 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
         public RelayCommand SendCommand { get; set; }
         public RelayCommand ConnectToServerCommand { get; set; }
 
-        public ObservableCollection<string> Messages1 { get; set; }
-        public ContactModel SelectedContact { 
+        public ContactModel SelectedContact 
+        { 
             get
             { 
                 return _selectedContact; 
             }
             set
             { 
-                _selectedContact = value; 
+                _selectedContact = value;
+                ChangeColor();
                 OnPropertyChanged();
             }
         }
+        private string _recipient;
         private ContactModel _selectedContact;
         private Server _server;
         private string _message;
 
+        //Здесь будет храниться название текущего чата
+        //All - общий чат.
+        //UserName - чья та личка
+        public string Recipient 
+        { 
+            get
+            {
+                return _recipient;
+            }
+            set
+            {
+                value = _recipient;
+            }
+        }
         public string UserName { get; set; }
         public string Message 
         {
@@ -54,35 +70,77 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
             ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(UserName),o=>!string.IsNullOrEmpty(UserName));
 
             Users = new ObservableCollection<UserModel>();
-            Messages1 = new ObservableCollection<string>();
-
-            SendCommand = new RelayCommand(o => _server.SendMessageToServer(Message), o => !string.IsNullOrEmpty(Message));
+            Messages = new ObservableCollection<MessageModel>();
+            Contacts = new ObservableCollection<ContactModel>();
+            ContactModel current = new ContactModel();
+            current.UserName = "All";
+            current.UserColor = "Red";
+            SelectedContact = current;
+            Contacts.Add(current);
+            OnPropertyChanged();
+            SendCommand = new RelayCommand(o => Sending());
         }
 
         private void RemoveUser()
         {
             var uid = _server.packetReader.ReadMessage();
-            var user = Users.Where(x=>x.UID==uid).FirstOrDefault();
-            Application.Current.Dispatcher.Invoke(() => Users.Remove(user));
+            var contact = Contacts.Where(x=>x.UID==uid).FirstOrDefault();
+            Application.Current.Dispatcher.Invoke(() => Contacts.Remove(contact));
         }
 
+        private void Sending()
+        {
+            if(!string.IsNullOrEmpty(Message))
+            {
+                _server.SendMessageToServer(Message);
+                MessageReceived();
+            }
+        }
+
+        //Здесь текст сообщения считывается и добавляется в список всех сообщений
         private void MessageReceived()
         {
             var msg = _server.packetReader.ReadMessage();
-            Application.Current.Dispatcher.Invoke(() => Messages1.Add(msg));
+            MessageModel current = new MessageModel();
+            current.Message = msg;
+            current.Time = DateTime.Now;
+            current.UserName = UserName;
+            current.UserNameColor = "White";
+            Application.Current.Dispatcher.Invoke(() => Messages.Add(current));
         }
 
         private void UserConnected()
         {
-            var user = new UserModel()
+            
+            var contact = new ContactModel()
             {
                 UserName = _server.packetReader.ReadMessage(),
-                UID = _server.packetReader.ReadMessage()
+                UID = _server.packetReader.ReadMessage(),
+                UserColor = "Coral"
             };
-            if(!Users.Any(x=>x.UID==user.UID))
+
+            //Нужно сделать так, чтобы у каждого пользователя в списке контактов не выводился он сам.
+            //Нужно добыть имя пользовате
+            if(!Contacts.Any(x=>x.UserName==contact.UserName)&&contact.UserName!=_server.User)
             {
-                Application.Current.Dispatcher.Invoke(()=>Users.Add(user));
+                OnPropertyChanged();
+                Application.Current.Dispatcher.Invoke(()=>Contacts.Add(contact));
             }
+        }
+
+        //Меняем элемент, чей задний фон будет красным.
+        //Эта функция должна применяться всякий раз,
+        //как переменная SelectedContact сменит сове значение
+        private void ChangeColor()
+        {
+            for(int i=0;i<Contacts.Count;i++)
+            {
+                if (Contacts[i].UserName == SelectedContact.UserName)
+                    Contacts[i].UserColor = "Red";
+                else
+                    Contacts[i].UserColor = "Coral";
+            }
+            OnPropertyChanged();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Вторая_попытка_в_чат.Net
         //Для создания клиентской программы, работающей по протоколу TCP, предназначен класс TcpClient.
         TcpClient _client;
         public PacketReader packetReader;
+        public string User = " ";
         public Server()
         {
             _client = new TcpClient();
@@ -34,6 +35,7 @@ namespace Вторая_попытка_в_чат.Net
 
                 if (!string.IsNullOrEmpty(username))
                 {
+                    User = username;
                     var ConnectPacket = new PacketBuilder();
                     ConnectPacket.WriteOpCode(0);
                     ConnectPacket.WriteMessage(username);
@@ -73,6 +75,12 @@ namespace Вторая_попытка_в_чат.Net
             );
         }
 
+        public string GetUser()
+        {
+            return User;
+        }
+
+        //Сообщение отправляется на сервер
         public void SendMessageToServer(string message)
         {
             var MessagePacket = new PacketBuilder();
