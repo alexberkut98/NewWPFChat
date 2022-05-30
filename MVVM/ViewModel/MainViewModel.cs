@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Вторая_попытка_в_чат.Core;
 using Вторая_попытка_в_чат.MVVM.Model;
+using Вторая_попытка_в_чат.MVVM.View;
 using Вторая_попытка_в_чат.Net;
 
 namespace Вторая_попытка_в_чат.MVVM.ViewModel
@@ -18,6 +20,11 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
         public ObservableCollection<UserModel> Users { get; set; }
         public RelayCommand SendCommand { get; set; }
         public RelayCommand ConnectToServerCommand { get; set; }
+
+        public RelayCommand MouseDown1 { get; set; }
+        public RelayCommand Mini1 { get; set; }
+        public RelayCommand ChangeStation { get; set; }
+        public RelayCommand Closing { get; set; }
 
         public ContactModel SelectedContact 
         { 
@@ -32,7 +39,6 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
-        private string _recipient;
         private ContactModel _selectedContact;
         private Server _server;
         private string _message;
@@ -40,17 +46,7 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
         //Здесь будет храниться название текущего чата
         //All - общий чат.
         //UserName - чья та личка
-        public string Recipient 
-        { 
-            get
-            {
-                return _recipient;
-            }
-            set
-            {
-                value = _recipient;
-            }
-        }
+
         public string UserName { get; set; }
         public string Message 
         {
@@ -69,6 +65,10 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
             _server.msgReceivedEvent += MessageReceived;
             _server.userDisconnectEvent += RemoveUser;
             ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(UserName), o => !string.IsNullOrEmpty(UserName));
+            MouseDown1 = new RelayCommand(o => MouseDown3());
+            Mini1 = new RelayCommand(o => Minimise());
+            ChangeStation = new RelayCommand(o => WindowStateClick());
+            Closing = new RelayCommand(o => CloseWindow());
 
             Users = new ObservableCollection<UserModel>();
             Messages = new ObservableCollection<MessageModel>();
@@ -214,6 +214,29 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
                     Messages[i].Vis = "0";
             }
             OnPropertyChanged();
+        }
+
+        public void MouseDown3()
+        {
+            Wwork w = new Wwork();
+            w.MouseDown4();
+        }
+        public void Minimise()
+        {
+            Application.Current.MainWindow.WindowState = WindowState.Minimized;
+        }
+
+        public void WindowStateClick()
+        {
+            //Если окно находится не в максимальном расширении - увеличить его.
+            if (Application.Current.MainWindow.WindowState != WindowState.Maximized)
+                Application.Current.MainWindow.WindowState = WindowState.Maximized;
+            else
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+        }
+         public void CloseWindow()
+        {
+            Application.Current.Shutdown();
         }
     }
 }
