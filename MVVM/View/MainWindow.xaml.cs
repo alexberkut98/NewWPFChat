@@ -26,5 +26,10 @@ namespace Вторая_попытка_в_чат
             InitializeComponent();
         }
 
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }

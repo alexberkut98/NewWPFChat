@@ -65,7 +65,6 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
             _server.msgReceivedEvent += MessageReceived;
             _server.userDisconnectEvent += RemoveUser;
             ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(UserName), o => !string.IsNullOrEmpty(UserName));
-            MouseDown1 = new RelayCommand(o => MouseDown3());
             Mini1 = new RelayCommand(o => Minimise());
             ChangeStation = new RelayCommand(o => WindowStateClick());
             Closing = new RelayCommand(o => CloseWindow());
@@ -216,11 +215,7 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
             OnPropertyChanged();
         }
 
-        public void MouseDown3()
-        {
-            Wwork w = new Wwork();
-            w.MouseDown4();
-        }
+        
         public void Minimise()
         {
             Application.Current.MainWindow.WindowState = WindowState.Minimized;

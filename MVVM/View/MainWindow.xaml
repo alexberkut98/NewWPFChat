@@ -3,16 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        xmlns:local="clr-namespace:Вторая_попытка_в_чат" xmlns:viewmodel="clr-namespace:Вторая_попытка_в_чат.MVVM.ViewModel"
-        mc:Ignorable="d" 
-               
+   xmlns:viewmodel="clr-namespace:Вторая_попытка_в_чат.MVVM.ViewModel"
+        mc:Ignorable="d"                
     Background="Black"
     WindowStyle="None"
-    AllowsTransparency="True"    
-    Height="650" Width="1200"
-    ResizeMode = "CanResizeWithGrip" 
-    WindowStartupLocation="CenterScreen"    
+    AllowsTransparency="True"   
+    WindowStartupLocation="CenterScreen"
+    Height="650" Width="1200"   
         >
 
     <Window.DataContext>
@@ -41,13 +38,8 @@
         <!--Border - Задний фон элемента WPF-->
         <Border Grid.ColumnSpan="2" 
                 Background="Blue" 
+                MouseLeftButtonDown="Border_MouseLeftButtonDown"
                 >
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseLeftButtonDown">
-                    
-                </i:EventTrigger>
-
-            </i:Interaction.Triggers>
             <!--Свойство HorizontalAlignment выравнивает элемент по горизонтали 
             относительно правой или левой стороны контейнера 
             и соответственно может принимать значения Left, Right, 
