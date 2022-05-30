@@ -180,7 +180,7 @@
                 </Grid>
             </Border>
             <!--ItemContainerStyle Возвращает или задает Style, применяемый к элементу контейнера, созданного для каждого элемента.-->
-            <ListView ItemsSource="{Binding Messages}" 
+            <ListView ItemsSource="{Binding Messages,UpdateSourceTrigger=PropertyChanged}" 
                       Background="Transparent" 
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ChatItem}"

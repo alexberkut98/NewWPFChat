@@ -81,7 +81,7 @@ namespace Вторая_попытка_в_чат.Net
         }
 
         //Сообщение отправляется на сервер
-        public void SendMessageToServer(string message)
+        public void SendMessageToServer(string message, string username)
         {
             var MessagePacket = new PacketBuilder();
             MessagePacket.WriteOpCode(5);

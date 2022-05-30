@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatClient", "ChatClient.csproj", "{4C0FDE0E-7BE4-4CC6-BD1E-5ABAF3B80282}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A8236330-DECA-4FA3-9FD1-004A3CCC1189} = {A8236330-DECA-4FA3-9FD1-004A3CCC1189}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatServer", "..\ConsoleApp1\ChatServer.csproj", "{A8236330-DECA-4FA3-9FD1-004A3CCC1189}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatServer", "..\ConsoleApp1\ChatServer.csproj", "{A8236330-DECA-4FA3-9FD1-004A3CCC1189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

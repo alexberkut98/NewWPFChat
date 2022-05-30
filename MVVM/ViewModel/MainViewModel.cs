@@ -61,13 +61,14 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
                 OnPropertyChanged();
             } 
         }
+        string UN="";
         public MainViewModel()
         {
             _server = new Server();
             _server.ConnectedEvent += UserConnected;
             _server.msgReceivedEvent += MessageReceived;
             _server.userDisconnectEvent += RemoveUser;
-            ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(UserName),o=>!string.IsNullOrEmpty(UserName));
+            ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(UserName), o => !string.IsNullOrEmpty(UserName));
 
             Users = new ObservableCollection<UserModel>();
             Messages = new ObservableCollection<MessageModel>();
@@ -79,8 +80,63 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
             Contacts.Add(current);
             OnPropertyChanged();
             SendCommand = new RelayCommand(o => Sending());
+            Contacts.Add(new ContactModel
+            {
+                UserName = "Said",
+                UserColor = "Coral",
+                Messages = new ObservableCollection<MessageModel>()
+            });
+            Contacts.Add(new ContactModel
+            {
+                UserName = "Murat",
+                UserColor = "Coral",
+                Messages = new ObservableCollection<MessageModel>()
+            });
+            Messages.Add(
+                new MessageModel
+                {
+                    UserName = "Said",
+                    Vis = "0",
+                    Target = "You",
+                    Time = DateTime.Now,
+                    Message = "Hello, User!"
+                }
+                );
+            Messages.Add(
+    new MessageModel
+    {
+        UserName = "Said",
+        Vis = "1",
+        Target = "All",
+        Time = DateTime.Now,
+        Message = "Long time no see!"
+    }
+    );
+            Messages.Add(
+    new MessageModel
+    {
+        UserName = "Murat",
+        Vis = "0",
+        Target = "You",
+        Time = DateTime.Now,
+        Message = "Hello, friend!!"
+    }
+    );
+            Messages.Add(
+    new MessageModel
+    {
+        UserName = "Murat",
+        Vis = "1",
+        Target = "All",
+        Time = DateTime.Now,
+        Message = "I need your help!!"
+    }
+    );
         }
-
+        public void AddMessage()
+        {
+      
+        }
         private void RemoveUser()
         {
             var uid = _server.packetReader.ReadMessage();
@@ -88,12 +144,22 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
             Application.Current.Dispatcher.Invoke(() => Contacts.Remove(contact));
         }
 
+        //Мало отправить сообщение на сервер, его еще надо отправить конкретному пользователю.
+        //Даже если имя адресата "All"
         private void Sending()
         {
             if(!string.IsNullOrEmpty(Message))
             {
-                _server.SendMessageToServer(Message);
-                MessageReceived();
+                Messages.Add(
+                    new MessageModel
+                    {
+                        UserName = "You",
+                        Vis = "1",
+                        Target = SelectedContact.UserName,
+                        Time = DateTime.Now,
+                        Message = Message
+                    }
+                    );
             }
         }
 
@@ -108,7 +174,6 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
             current.UserNameColor = "White";
             Application.Current.Dispatcher.Invoke(() => Messages.Add(current));
         }
-
         private void UserConnected()
         {
             
@@ -139,6 +204,14 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
                     Contacts[i].UserColor = "Red";
                 else
                     Contacts[i].UserColor = "Coral";
+            }
+
+            for(int i=0;i<Messages.Count;i++)
+            {
+                if (Messages[i].UserName == SelectedContact.UserName && Messages[i].Target=="You" ||SelectedContact.UserName=="All" && Messages[i].Target == "All" || Messages[i].UserName == "You" && Messages[i].Target==SelectedContact.UserName)
+                    Messages[i].Vis = "1";
+                else
+                    Messages[i].Vis = "0";
             }
             OnPropertyChanged();
         }
