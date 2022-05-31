@@ -12,4 +12,8 @@
     <PackageReference Include="GleamTech.DocumentUltimate" Version="6.4.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Net\" />
+  </ItemGroup>
+
 </Project>

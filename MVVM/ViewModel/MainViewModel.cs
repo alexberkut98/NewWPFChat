@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using Вторая_попытка_в_чат.Core;
 using Вторая_попытка_в_чат.MVVM.Model;
-using Вторая_попытка_в_чат.Net;
 
 namespace Вторая_попытка_в_чат.MVVM.ViewModel
 {
@@ -34,7 +33,6 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
         }
         private string _recipient;
         private ContactModel _selectedContact;
-        private Server _server;
         private string _message;
 
         //Здесь будет храниться название текущего чата
@@ -63,12 +61,6 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
         }
         public MainViewModel()
         {
-            _server = new Server();
-            _server.ConnectedEvent += UserConnected;
-            _server.msgReceivedEvent += MessageReceived;
-            _server.userDisconnectEvent += RemoveUser;
-            ConnectToServerCommand = new RelayCommand(o => _server.ConnectToServer(UserName),o=>!string.IsNullOrEmpty(UserName));
-
             Users = new ObservableCollection<UserModel>();
             Messages = new ObservableCollection<MessageModel>();
             Contacts = new ObservableCollection<ContactModel>();
@@ -83,30 +75,21 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
 
         private void RemoveUser()
         {
-            var uid = _server.packetReader.ReadMessage();
-            var contact = Contacts.Where(x=>x.UID==uid).FirstOrDefault();
-            Application.Current.Dispatcher.Invoke(() => Contacts.Remove(contact));
+
         }
 
         private void Sending()
         {
             if(!string.IsNullOrEmpty(Message))
             {
-                _server.SendMessageToServer(Message);
-                MessageReceived();
+
             }
         }
 
         //Здесь текст сообщения считывается и добавляется в список всех сообщений
         private void MessageReceived()
         {
-            var msg = _server.packetReader.ReadMessage();
-            MessageModel current = new MessageModel();
-            current.Message = msg;
-            current.Time = DateTime.Now;
-            current.UserName = UserName;
-            current.UserNameColor = "White";
-            Application.Current.Dispatcher.Invoke(() => Messages.Add(current));
+
         }
 
         private void UserConnected()
@@ -114,18 +97,12 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
             
             var contact = new ContactModel()
             {
-                UserName = _server.packetReader.ReadMessage(),
-                UID = _server.packetReader.ReadMessage(),
-                UserColor = "Coral"
+
             };
 
             //Нужно сделать так, чтобы у каждого пользователя в списке контактов не выводился он сам.
             //Нужно добыть имя пользовате
-            if(!Contacts.Any(x=>x.UserName==contact.UserName)&&contact.UserName!=_server.User)
-            {
-                OnPropertyChanged();
-                Application.Current.Dispatcher.Invoke(()=>Contacts.Add(contact));
-            }
+
         }
 
         //Меняем элемент, чей задний фон будет красным.
