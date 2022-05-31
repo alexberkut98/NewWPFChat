@@ -3,14 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Вторая_попытка_в_чат" xmlns:viewmodel="clr-namespace:Вторая_попытка_в_чат.MVVM.ViewModel"
-        mc:Ignorable="d" 
-               
+   xmlns:viewmodel="clr-namespace:Вторая_попытка_в_чат.MVVM.ViewModel"
+        mc:Ignorable="d"                
     Background="Black"
     WindowStyle="None"
-    AllowsTransparency="True"    
-    Height="650" Width="1200"
-    ResizeMode = "CanResizeWithGrip">
+    AllowsTransparency="True"   
+    WindowStartupLocation="CenterScreen"
+    Height="650" Width="1200"   
+        >
 
     <Window.DataContext>
         <viewmodel:MainViewModel/>
@@ -37,15 +37,15 @@
 
         <!--Border - Задний фон элемента WPF-->
         <Border Grid.ColumnSpan="2" 
-                Background="Blue"
-                MouseDown="Border_MouseDown"
+                Background="Blue" 
+                MouseLeftButtonDown="Border_MouseLeftButtonDown"
                 >
-
             <!--Свойство HorizontalAlignment выравнивает элемент по горизонтали 
             относительно правой или левой стороны контейнера 
             и соответственно может принимать значения Left, Right, 
             Center (положение по центру), 
             Stretch (растяжение по всей ширине).-->
+
             <Grid HorizontalAlignment="Stretch">
                 <Label Content="MyChat" Foreground="Gray" FontWeight="SemiBold"/>
 
@@ -61,7 +61,7 @@
                         BorderThickness="0"
                         Foreground="Gray"
                         FontWeight="Bold"
-                        Click="ButtonMinimise_Click"
+                        Command="{Binding Mini1}"
                         />
 
                     <Button 
@@ -72,7 +72,7 @@
                         BorderThickness="0"
                         Foreground="Gray"
                         FontWeight="Bold"
-                        Click="WindowState_Click"
+                        Command="{Binding ChangeStation}"
                         />
 
                     <Button 
@@ -83,7 +83,7 @@
                         BorderThickness="0"
                         Foreground="Gray"
                         FontWeight="Bold"
-                        Click="CloseButton_Click"
+                        Command="{Binding Closing}"
                         />
 
                 </StackPanel>
@@ -180,7 +180,7 @@
                 </Grid>
             </Border>
             <!--ItemContainerStyle Возвращает или задает Style, применяемый к элементу контейнера, созданного для каждого элемента.-->
-            <ListView ItemsSource="{Binding Messages}" 
+            <ListView ItemsSource="{Binding Messages,UpdateSourceTrigger=PropertyChanged}" 
                       Background="Transparent" 
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ChatItem}"

@@ -9,7 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MVVM\ViewModel\WindowWorks.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="GleamTech.DocumentUltimate" Version="6.4.5" />
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
