@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Compile Remove="MVVM\ViewModel\WindowWorks.cs" />
+    <Compile Remove="MVVM\View\RelayCommand.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Input;
 using Вторая_попытка_в_чат.Core;
 using Вторая_попытка_в_чат.MVVM.Model;
-using Вторая_попытка_в_чат.MVVM.View;
 
 namespace Вторая_попытка_в_чат.MVVM.ViewModel
 {
@@ -18,7 +17,12 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
         public ObservableCollection<ContactModel> Contacts { get; set; }
         public ObservableCollection<UserModel> Users { get; set; }
         public RelayCommand SendCommand { get; set; }
-        public RelayCommand ConnectToServerCommand { get; set; }
+        //public RelayCommand ConnectToServerCommand { get; set; }
+
+        //Выбор режима работы сервера
+        public RelayCommand ChooseMode1 { get; set; }
+        public RelayCommand ChooseMode2 { get; set; }
+        public RelayCommand OK { get; set; }
 
         public RelayCommand MouseDown1 { get; set; }
         public RelayCommand Mini1 { get; set; }
@@ -55,11 +59,16 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
                 OnPropertyChanged();
             } 
         }
+        int ChosenMode = 1;
         public MainViewModel()
         {
             Mini1 = new RelayCommand(o => Minimise());
             ChangeStation = new RelayCommand(o => WindowStateClick());
             Closing = new RelayCommand(o => CloseWindow());
+
+            ChooseMode1 = new RelayCommand(o => Choose1());
+            ChooseMode2 = new RelayCommand(o => Choose2());
+            OK = new RelayCommand(o => OK1());
 
             Users = new ObservableCollection<UserModel>();
             Messages = new ObservableCollection<MessageModel>();
@@ -152,6 +161,20 @@ namespace Вторая_попытка_в_чат.MVVM.ViewModel
             }
         }
 
+        //Запуск выбранного режима
+        public void OK1()
+        {
+
+        }
+
+        private void Choose1()
+        {
+            ChosenMode = 1;
+        }
+        public void Choose2()
+        {
+            ChosenMode = 2;
+        }
         //Здесь текст сообщения считывается и добавляется в список всех сообщений
         private void MessageReceived()
         {
